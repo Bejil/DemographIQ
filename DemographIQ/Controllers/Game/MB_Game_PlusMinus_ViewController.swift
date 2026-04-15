@@ -15,10 +15,16 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
         
         didSet {
             
-            if let bestScore = UserDefaults.get(.plusMinusGameBestScore) as? Int, totalScore > bestScore {
+            let bestScore = MB_User.current.scores.plusMinus
+            
+            if totalScore > bestScore {
                 
-                UserDefaults.set(totalScore, .plusMinusGameBestScore)
-                NotificationCenter.post(.plusMinusGameBestScore)
+                let user = MB_User.current
+                user.scores.plusMinus = totalScore
+                user.save()
+                user.saveLeaderboard()
+                
+                NotificationCenter.post(.updateUserScore)
             }
             
             refreshScore()

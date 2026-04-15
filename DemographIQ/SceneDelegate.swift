@@ -15,6 +15,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
+        MB_Firebase.shared.start()
+        
         window = UIWindow(windowScene: windowScene)
         window?.backgroundColor = Colors.Background.Application
         

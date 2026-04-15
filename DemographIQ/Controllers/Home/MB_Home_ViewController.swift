@@ -78,33 +78,41 @@ public class MB_Home_ViewController : MB_ViewController {
         plusMinusGameButton.subtitle = String(key: "home.game.plusMinus.subtitle")
         contentStackView.addArrangedSubview(plusMinusGameButton)
         
-        contentStackView.setCustomSpacing(2*UI.Margins, after: plusMinusGameButton)
+        let leaderboardButton:MB_Button = .init(String(key: "home.game.leaderboard.title")) { _ in
+            
+            UI.MainController.present(MB_NavigationController(rootViewController: MB_Leaderboard_ViewController()), animated: true)
+        }
+        leaderboardButton.type = .tertiary
+        leaderboardButton.image = UIImage(systemName: "trophy")
+        leaderboardButton.subtitle = String(key: "home.game.leaderboard.subtitle")
+        contentStackView.addArrangedSubview(leaderboardButton)
+        
+        contentStackView.setCustomSpacing(2*UI.Margins, after: leaderboardButton)
         
         contentStackView.addArrangedSubview(MB_Settings_Button())
         
-        NotificationCenter.add(.classicGameBestScore) { _ in
+        NotificationCenter.add(.updateUserScore) { _ in
             
             classicGameButton.badge = nil
             
-            if let bestScore = UserDefaults.get(.classicGameBestScore) as? Int, bestScore > 0 {
+            let classicBestScore = MB_User.current.scores.classic
+            
+            if classicBestScore > 0 {
               
-                classicGameButton.badge = String(format: String(key: "home.game.classic.record"), bestScore)
+                classicGameButton.badge = String(format: String(key: "home.game.classic.record"), classicBestScore)
             }
-        }
-        
-        NotificationCenter.post(.classicGameBestScore)
-        
-        NotificationCenter.add(.plusMinusGameBestScore) { _ in
             
             plusMinusGameButton.badge = nil
             
-            if let bestScore = UserDefaults.get(.plusMinusGameBestScore) as? Int, bestScore > 0 {
+            let plusMinusBestScore = MB_User.current.scores.plusMinus
+            
+            if plusMinusBestScore > 0 {
               
-                plusMinusGameButton.badge = String(format: String(key: "home.game.plusMinus.record"), bestScore)
+                plusMinusGameButton.badge = String(format: String(key: "home.game.plusMinus.record"), plusMinusBestScore)
             }
         }
         
-        NotificationCenter.post(.plusMinusGameBestScore)
+        NotificationCenter.post(.updateUserScore)
     }
     
     public override func viewWillAppear(_ animated: Bool) {

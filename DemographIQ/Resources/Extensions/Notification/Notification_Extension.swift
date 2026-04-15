@@ -9,6 +9,5 @@ import Foundation
 
 extension Notification.Name {
 	
-    static let classicGameBestScore = Notification.Name("classicGameBestScore")
-    static let plusMinusGameBestScore = Notification.Name("plusMinusGameBestScore")
+    static let updateUserScore = Notification.Name("updateUserScore")
 }

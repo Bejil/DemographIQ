@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7A52A8972F837ECE0046CFCD /* AlamofireImage in Frameworks */ = {isa = PBXBuildFile; productRef = 7A52A8962F837ECE0046CFCD /* AlamofireImage */; };
+		7A52AE902F8F74650046CFCD /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A52AE8F2F8F74650046CFCD /* FirebaseFirestore */; };
 		7A6F8CDD2F73E9A200BF45A0 /* SPConfetti in Frameworks */ = {isa = PBXBuildFile; productRef = 7A6F8CDC2F73E9A200BF45A0 /* SPConfetti */; };
 		7A6F8F452F73F50A00BF45A0 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 7A6F8F442F73F50A00BF45A0 /* Alamofire */; };
 		7A73C37A2F73DE3000267C16 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7A73C3792F73DE3000267C16 /* SnapKit */; };
@@ -50,6 +51,7 @@
 				7A52A8972F837ECE0046CFCD /* AlamofireImage in Frameworks */,
 				7A6F8CDD2F73E9A200BF45A0 /* SPConfetti in Frameworks */,
 				7B8E9F102F85000100ABCDEF /* MapKit.framework in Frameworks */,
+				7A52AE902F8F74650046CFCD /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,6 +107,7 @@
 				7A6F8CDC2F73E9A200BF45A0 /* SPConfetti */,
 				7A6F8F442F73F50A00BF45A0 /* Alamofire */,
 				7A52A8962F837ECE0046CFCD /* AlamofireImage */,
+				7A52AE8F2F8F74650046CFCD /* FirebaseFirestore */,
 			);
 			productName = DemographIQ;
 			productReference = 7A73C2C92F73DD8D00267C16 /* DemographIQ.app */;
@@ -140,6 +143,7 @@
 				7A6F8CDB2F73E9A200BF45A0 /* XCRemoteSwiftPackageReference "SPConfetti" */,
 				7A6F8F432F73F50A00BF45A0 /* XCRemoteSwiftPackageReference "alamofire" */,
 				7A52A8952F837ECE0046CFCD /* XCRemoteSwiftPackageReference "AlamofireImage" */,
+				7A52AE8E2F8F74650046CFCD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7A73C2CA2F73DD8D00267C16 /* Products */;
@@ -387,6 +391,14 @@
 				minimumVersion = 4.3.0;
 			};
 		};
+		7A52AE8E2F8F74650046CFCD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.12.0;
+			};
+		};
 		7A6F8CDB2F73E9A200BF45A0 /* XCRemoteSwiftPackageReference "SPConfetti" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ivanvorobei/SPConfetti";
@@ -418,6 +430,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7A52A8952F837ECE0046CFCD /* XCRemoteSwiftPackageReference "AlamofireImage" */;
 			productName = AlamofireImage;
+		};
+		7A52AE8F2F8F74650046CFCD /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7A52AE8E2F8F74650046CFCD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 		7A6F8CDC2F73E9A200BF45A0 /* SPConfetti */ = {
 			isa = XCSwiftPackageProductDependency;

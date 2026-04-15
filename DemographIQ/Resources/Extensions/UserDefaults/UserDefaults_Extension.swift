@@ -19,8 +19,6 @@ extension UserDefaults {
         case countriesLastFecthData = "countriesLastFecthData"
         
         case currentUser = "currentUser"
-        case classicGameBestScore = "classicGameBestScore"
-        case plusMinusGameBestScore = "plusMinusGameBestScore"
     }
     
     public static func set(_ value:Any?, _ key:UserDefaults.Keys) {
