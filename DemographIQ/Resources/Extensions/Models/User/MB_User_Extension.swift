@@ -5,6 +5,7 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 extension MB_User {
 	
@@ -17,7 +18,6 @@ extension MB_User {
 		
 		let player:MB_User = .init()
 		player.save()
-		
 		return player
 	}
 	
@@ -28,4 +28,16 @@ extension MB_User {
 			UserDefaults.set(data, .currentUser)
 		}
 	}
+    
+    public func saveLeaderboard(_ completion: ((Error?) -> Void)? = nil) {
+        
+        do {
+            
+            try Firestore.firestore().collection("leaderboard").document(id.uuidString).setData(from: self, completion: completion)
+        }
+        catch {
+            
+            completion?(error)
+        }
+    }
 }

@@ -31,14 +31,15 @@ public class MB_User_Name_Alert_ViewController : MB_Alert_ViewController {
 		
 		let confirmButton = addButton(title: String(key: "settings.userName.alert.button")) { [weak self] _ in
 			
-			let name = self?.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+            let name = self?.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
 			
 			if let name = name, !name.isEmpty {
 				
 				currentPlayer.name = name
-				currentPlayer.save()
-				
-				self?.close(self?.completion)
+                currentPlayer.save()
+                currentPlayer.saveLeaderboard()
+                
+                self?.close()
 			}
 		}
 		confirmButton.isEnabled = !(textField.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true)

@@ -18,10 +18,16 @@ public class MB_Game_Classic_ViewController : MB_ViewController {
         
         didSet {
             
-            if let bestScore = UserDefaults.get(.classicGameBestScore) as? Int, totalScore > bestScore {
+            let bestScore = MB_User.current.scores.classic
+            
+            if totalScore > bestScore {
                 
-                UserDefaults.set(totalScore, .classicGameBestScore)
-                NotificationCenter.post(.classicGameBestScore)
+                let user = MB_User.current
+                user.scores.classic = totalScore
+                user.save()
+                user.saveLeaderboard()
+                
+                NotificationCenter.post(.updateUserScore)
             }
             
             refreshScore()
