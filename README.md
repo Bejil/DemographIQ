@@ -16,13 +16,13 @@ Comparez vos scores avec d'autres joueurs du monde entier ! Les classements sont
 - Mode Classique
 - Mode Plus ou Moins
 
----
-
 ## 🛠️ Technologies utilisées
 
 - **Swift**
 - **UIKit**
 - **Firebase Firestore**
+- **Google User Messaging Platform (UMP)** (gestion du consentement)
+- **Google MobileAds**
 - **SnapKit**
 - **MapKit**
 
