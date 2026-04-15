@@ -78,7 +78,16 @@ public class MB_Home_ViewController : MB_ViewController {
         plusMinusGameButton.subtitle = String(key: "home.game.plusMinus.subtitle")
         contentStackView.addArrangedSubview(plusMinusGameButton)
         
-        contentStackView.setCustomSpacing(2*UI.Margins, after: plusMinusGameButton)
+        let leaderboardButton:MB_Button = .init(String(key: "home.game.leaderboard.title")) { _ in
+            
+            UI.MainController.present(MB_NavigationController(rootViewController: MB_Leaderboard_ViewController()), animated: true)
+        }
+        leaderboardButton.type = .tertiary
+        leaderboardButton.image = UIImage(systemName: "trophy")
+        leaderboardButton.subtitle = String(key: "home.game.leaderboard.subtitle")
+        contentStackView.addArrangedSubview(leaderboardButton)
+        
+        contentStackView.setCustomSpacing(2*UI.Margins, after: leaderboardButton)
         
         contentStackView.addArrangedSubview(MB_Settings_Button())
         

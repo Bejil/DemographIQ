@@ -47,6 +47,8 @@
 "home.game.plusMinus.title" = "Plus ou moins";
 "home.game.plusMinus.subtitle" = "Compare des densités de population";
 "home.game.plusMinus.record" = "Record: %i pts";
+"home.game.leaderboard.title" = "Classement";
+"home.game.leaderboard.subtitle" = "Compare ton score aux meilleurs joueurs";
 
 //MARK: - Game Classic
 "game.classic.validate.button" = "Valider";
@@ -96,3 +98,9 @@
 
 //MARK: - TextField
 "textfield.done.button" = "Ok";
+
+//MARK: - Leaderboard
+"leaderboard.title" = "Classement";
+"leaderboard.segment.classic" = "Classique";
+"leaderboard.segment.plusMinus" = "Plus ou moins";
+"leaderboard.points" = "points";
