@@ -1,0 +1,98 @@
+//
+//  Localizables.strings
+//  LettroLine
+//
+//  Created by BLIN Michael on 12/02/2025.
+//
+
+//MARK: - Placeholder
+//TODO: Empty
+"placeholder.empty.content" = "Il n'y a rien à afficher ici pour l'instant";
+"placeholder.empty.title" = "Attention";
+//TODO: Error
+"placeholder.error.button" = "Réessayer";
+"placeholder.error.title" = "Attention";
+//TODO: Loading
+"placeholder.loading.content" = "Veuillez patienter pendant le chargement";
+"placeholder.loading.title" = "Chargement en cours...";
+
+//MARK: - Alert
+"alert.cancel.button" = "Annuler";
+"alert.dismiss.button" = "Ok";
+"alert.error.title" = "Attention";
+"alert.error.button" = "Réessayer";
+"alert.loading.title" = "Chargement en cours...";
+"alert.loading.content" = "Merci de patienter pendant le chargement";
+
+//MARK: - Settings
+"settings.button" = "Réglages";
+"settings.button.name" = "Votre nom";
+"settings.button.music" = "Musique";
+"settings.button.music.on" = "Activée";
+"settings.button.music.off" = "Désactivée";
+"settings.button.sounds" = "Sons";
+"settings.button.sounds.on" = "Activés";
+"settings.button.sounds.off" = "Désactivés";
+"settings.button.vibrations" = "Vibrations";
+"settings.button.vibrations.on" = "Activées";
+"settings.button.vibrations.off" = "Désactivées";
+
+//MARK: - Home
+"home.title.welcome" = "Bienvenue";
+"home.subtitle.welcome" = "Dans DemographIQ, teste ton intuition sur les populations des pays du monde";
+"home.subtitle.population.info" = "Vous faites partie des %@ habitants du monde !";
+"home.game.classic.title" = "Partie classique";
+"home.game.classic.subtitle" = "Retrouve le nombre d'habitants";
+"home.game.classic.record" = "Record: %i pts";
+"home.game.plusMinus.title" = "Plus ou moins";
+"home.game.plusMinus.subtitle" = "Compare des densités de population";
+"home.game.plusMinus.record" = "Record: %i pts";
+
+//MARK: - Game Classic
+"game.classic.validate.button" = "Valider";
+"game.classic.score" = "Score · %d pts";
+"game.classic.score.earned" = "Vous avez gagné +%d points";
+"game.classic.alert.title.great" = "🤩\nExcellent";
+"game.classic.alert.title.good" = "😊\nPas mal";
+"game.classic.alert.body.great" = "Ton estimation est quasiment au bon chiffre, tu as très bien saisi l’ordre de grandeur.";
+"game.classic.alert.body.good" = "Tu n’es pas très loin du compte, avec un peu plus d’attention tu peux encore affiner tes réponses.";
+"game.classic.alert.body.population.total" = "%@\nenviron %@ habitants selon les données utilisées dans le jeu.";
+"game.classic.alert.body.diff.percentage" = "Par rapport à la population de référence utilisée ici, ton estimation s’en écarte d’environ %@ %%.";
+"game.classic.hint.title" = "Pas tout à fait";
+"game.classic.hint.body.higher" = "La population est plus élevée que ce que tu as indiqué. Tu as encore une tentative.";
+"game.classic.hint.body.lower" = "La population est plus faible que ce que tu as indiqué. Tu as encore une tentative.";
+"game.classic.hint.body.unknown" = "Ce n’est pas la bonne estimation. Tu as encore une tentative.";
+"game.classic.retry.button" = "Réessayer";
+"game.classic.lose.title" = "Partie terminée";
+"game.classic.lose.body" = "Tu as épuisé tes deux tentatives pour %@. La population était de %@ habitants.";
+"game.classic.back_menu.button" = "Retour au menu";
+"game.classic.next_country" = "Pays suivant";
+"game.classic.quit.title" = "Quitter la partie ?";
+"game.classic.quit.message.empty" = "Ta partie en cours sera interrompue. Tu pourras en relancer une depuis le menu.";
+"game.classic.quit.message.scored" = "Tu as %d points pour l’instant. Si tu quittes, cette session s’arrête et ce score ne sera plus affiché dans cette partie.";
+"game.classic.quit.confirm" = "Quitter";
+
+//MARK: - Game PlusMinus
+"game.plusMinus.label" = "Quel pays a le plus d'habitants ?";
+"game.plusMinus.next.emoji.success" = "🤩";
+"game.plusMinus.next.emoji.failure" = "😔";
+"game.plusMinus.next.title.success" = "BRAVO";
+"game.plusMinus.next.title.failure" = "RATÉ";
+"game.plusMinus.next.subtitle.success" = "Pays suivant";
+"game.plusMinus.next.subtitle.failure" = "Plus d'infos";
+"game.plusMinus.score" = "Score · %d pts";
+"game.plusMinus.quit.title" = "Quitter la partie ?";
+"game.plusMinus.quit.message.empty" = "Ta partie en cours sera interrompue. Tu pourras en relancer une depuis le menu.";
+"game.plusMinus.quit.message.scored" = "Tu as %d points pour l’instant. Si tu quittes, cette session s’arrête et ce score ne sera plus affiché dans cette partie.";
+"game.plusMinus.quit.confirm" = "Quitter";
+"game.plusMinus.failure.alert.title" = "Partie terminée";
+"game.plusMinus.failure.alert.score" = "Score total : %d point(s)";
+"game.plusMinus.failure.alert.no_round_points" = "Tu n'as pas gagné de point sur cette manche.";
+
+//MARK: - User name
+"settings.userName.alert.title" = "Votre nom";
+"settings.userName.alert.placeholder" = "Entrez votre nom";
+"settings.userName.alert.button" = "Enregistrer";
+
+//MARK: - TextField
+"textfield.done.button" = "Ok";

@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  DemographIQ
+//  Template
 //
 //  Created by Michaël Blin on 25/03/2026.
 //

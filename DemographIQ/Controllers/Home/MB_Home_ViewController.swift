@@ -1,0 +1,116 @@
+//
+//  MB_Home_ViewController.swift
+//  Template
+//
+//  Created by Michaël Blin on 25/03/2026.
+//
+
+import UIKit
+import SnapKit
+
+public class MB_Home_ViewController : MB_ViewController {
+    
+    public override func loadView() {
+        
+        super.loadView()
+        
+        contentScrollView.isCentered = true
+        
+        let imageView:MB_ImageView = .init(image: UIImage(systemName: "globe.europe.africa"))
+        imageView.tintColor = Colors.Secondary
+        imageView.snp.makeConstraints { make in
+            make.size.equalTo(12*UI.Margins)
+        }
+        contentStackView.addArrangedSubview(imageView)
+        
+        let titleLabel:MB_Label = .init(String(key: "home.title.welcome"))
+        titleLabel.font = Fonts.Content.Title.H1.withSize(Fonts.Size+50)
+        titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.minimumScaleFactor = 0.5
+        titleLabel.textAlignment = .center
+        titleLabel.numberOfLines = 1
+        contentStackView.addArrangedSubview(titleLabel)
+        
+        let totalPopulation = MB_Country.all?.compactMap({ $0.population }).reduce(0, +) ?? 0
+        
+        let subtitleLabel:MB_Label = MB_Label(String(key: "home.subtitle.welcome"))
+        subtitleLabel.textAlignment = .center
+        contentStackView.addArrangedSubview(subtitleLabel)
+        
+        if totalPopulation > 0 {
+            
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .decimal
+            formatter.locale = Locale.current
+            let formattedPopulation = formatter.string(from: NSNumber(value: totalPopulation)) ?? "\(totalPopulation)"
+            
+            let populationLabel = MB_Label(String(format: String(key: "home.subtitle.population.info"), formattedPopulation))
+            populationLabel.textAlignment = .center
+            populationLabel.numberOfLines = 0
+            populationLabel.set(font: Fonts.Content.Text.Bold, string: "\(formattedPopulation) habitants")
+            contentStackView.addArrangedSubview(populationLabel)
+            
+            contentStackView.setCustomSpacing(3*UI.Margins, after: populationLabel)
+        }
+        else {
+            
+            contentStackView.setCustomSpacing(3*UI.Margins, after: subtitleLabel)
+        }
+        
+        let classicGameButton:MB_Button = .init(String(key: "home.game.classic.title")) { _ in
+            
+            let navigationController:MB_NavigationController = MB_NavigationController(rootViewController: MB_Game_Classic_ViewController())
+            navigationController.navigationBar.prefersLargeTitles = false
+            UI.MainController.present(navigationController, animated: true)
+        }
+        classicGameButton.image = UIImage(systemName: "gamecontroller")
+        classicGameButton.subtitle = String(key: "home.game.classic.subtitle")
+        contentStackView.addArrangedSubview(classicGameButton)
+        
+        let plusMinusGameButton:MB_Button = .init(String(key: "home.game.plusMinus.title")) { _ in
+            
+            let navigationController:MB_NavigationController = MB_NavigationController(rootViewController: MB_Game_PlusMinus_ViewController())
+            navigationController.navigationBar.prefersLargeTitles = false
+            UI.MainController.present(navigationController, animated: true)
+        }
+        plusMinusGameButton.type = .secondary
+        plusMinusGameButton.image = UIImage(systemName: "plus.minus.capsule")
+        plusMinusGameButton.subtitle = String(key: "home.game.plusMinus.subtitle")
+        contentStackView.addArrangedSubview(plusMinusGameButton)
+        
+        contentStackView.setCustomSpacing(2*UI.Margins, after: plusMinusGameButton)
+        
+        contentStackView.addArrangedSubview(MB_Settings_Button())
+        
+        NotificationCenter.add(.classicGameBestScore) { _ in
+            
+            classicGameButton.badge = nil
+            
+            if let bestScore = UserDefaults.get(.classicGameBestScore) as? Int, bestScore > 0 {
+              
+                classicGameButton.badge = String(format: String(key: "home.game.classic.record"), bestScore)
+            }
+        }
+        
+        NotificationCenter.post(.classicGameBestScore)
+        
+        NotificationCenter.add(.plusMinusGameBestScore) { _ in
+            
+            plusMinusGameButton.badge = nil
+            
+            if let bestScore = UserDefaults.get(.plusMinusGameBestScore) as? Int, bestScore > 0 {
+              
+                plusMinusGameButton.badge = String(format: String(key: "home.game.plusMinus.record"), bestScore)
+            }
+        }
+        
+        NotificationCenter.post(.plusMinusGameBestScore)
+    }
+    
+    public override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        contentStackView.animate()
+    }
+}
