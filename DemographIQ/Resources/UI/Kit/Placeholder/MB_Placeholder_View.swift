@@ -163,7 +163,7 @@ public class MB_Placeholder_View: UIView {
 		
 		super.init(frame: frame)
 		
-        backgroundColor = Colors.Background.View.Default
+        //backgroundColor = Colors.Background.View.Default
 		
 		addSubview(scrollView)
 		scrollView.snp.makeConstraints { make in

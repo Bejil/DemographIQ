@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import UserMessagingPlatform
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -25,6 +26,43 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             self?.window?.rootViewController = MB_Home_ViewController()
             
+            let parameters = RequestParameters()
+            parameters.isTaggedForUnderAgeOfConsent = false
+            
+            ConsentInformation.shared.requestConsentInfoUpdate(with: parameters) { [weak self] _ in
+                
+                ConsentForm.load { [weak self] form, _ in
+                    
+                    if ConsentInformation.shared.consentStatus == .required {
+                        
+                        form?.present(from: UI.MainController) { [weak self] _ in
+                            
+                            if ConsentInformation.shared.consentStatus == .obtained {
+                                
+                                self?.presentUserNameAlert()
+                            }
+                        }
+                    }
+                    else if ConsentInformation.shared.consentStatus == .obtained {
+                        
+                        self?.presentUserNameAlert()
+                    }
+                }
+            }
+        }
+        window?.rootViewController = viewController
+        
+        window?.makeKeyAndVisible()
+        
+        MB_Audio.shared.playMusic()
+    }
+    
+    private func presentUserNameAlert() {
+        
+        NotificationCenter.post(.updateAds)
+        
+        MB_Ads.shared.presentAppOpening {
+            
             let currentUser:MB_User = .current
             if currentUser.name == nil || (currentUser.name ?? "").isEmpty {
                 
@@ -33,10 +71,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 alertController.present()
             }
         }
-        window?.rootViewController = viewController
-        
-        window?.makeKeyAndVisible()
-        
-        MB_Audio.shared.playMusic()
     }
 }

@@ -85,6 +85,14 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
             topDimVisualEffectView.alpha = 0.0
             topBackgroundMapView.country = topCountry
             
+            nextStackView.isUserInteractionEnabled = true
+            nextSubtitleLabel.isHidden = false
+            
+            topView.isUserInteractionEnabled = true
+            bottomView.isUserInteractionEnabled = true
+            
+            dismissResult()
+            
             bottomCountryStackView.nameLabel.textColor = Colors.Content.Text
             bottomDimVisualEffectView.alpha = 0.0
         }
@@ -159,7 +167,6 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
         $0.alpha = 0.0
         $0.axis = .vertical
         $0.spacing = UI.Margins/5
-        $0.setCustomSpacing(-UI.Margins, after: nextTitleLabel)
         $0.isLayoutMarginsRelativeArrangement = true
         $0.layoutMargins = .init(horizontal: 2*UI.Margins, vertical: UI.Margins)
         $0.addGestureRecognizer(UITapGestureRecognizer(block: { [weak self] _ in
@@ -239,7 +246,6 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
         }
         
         topCountry = countries.getNew()
-        bottomCountry = countries.getNew()
         
         topView.addGestureRecognizer(UITapGestureRecognizer(block: { [weak self] _ in
            
@@ -264,6 +270,14 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
                 self?.showResult(false)
             }
         }))
+        
+        MB_Alert_ViewController.presentLoading { controller in
+            
+            MB_Ads.shared.presentInterstitial(Ads.FullScreen.GameStart, dismissCompletion: {
+                
+                controller?.close()
+            })
+        }
     }
     
     public override func viewDidAppear(_ animated: Bool) {
@@ -347,7 +361,7 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
             
             topView.isUserInteractionEnabled = false
             bottomView.isUserInteractionEnabled = false
-            nextStackView.isUserInteractionEnabled = true
+            nextStackView.isUserInteractionEnabled = false
             nextSubtitleLabel.isHidden = true
             
             UIApplication.wait(2.5) { [weak self] in
@@ -356,7 +370,33 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
                 alertController.backgroundView.isUserInteractionEnabled = false
                 alertController.title = String(key: "game.plusMinus.failure.alert.title")
                 alertController.add(self?.totalScore ?? 0 > 0 ? String(format: String(key: "game.plusMinus.failure.alert.score"), self?.totalScore ?? 0) : String(key: "game.plusMinus.failure.alert.no_round_points"))
-                alertController.addButton(title: String(key: "game.classic.back_menu.button")) { [weak self] _ in
+                
+                let button = alertController.addButton(title: String(key: "game.plusMinus.failure.retry.button.title")) { [weak self] _ in
+                    
+                    alertController.close { [weak self] in
+                        
+                        MB_Alert_ViewController.presentLoading { [weak self] controller in
+                            
+                            Task { [weak self] in
+                                
+                                await MB_Ads.shared.presentRewardedAd(Ads.FullScreen.GameLose, { [weak self] state, exception in
+                                    
+                                    controller?.close { [weak self] in
+                                        
+                                        if state || exception ?? true {
+                                            
+                                            self?.topCountry = self?.countries.getNew()
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                    }
+                }
+                button.type = .tertiary
+                button.subtitle = String(key: "game.plusMinus.failure.retry.button.subtitle")
+                
+                alertController.addButton(title: String(key: "game.plusMinus.failure.menu.button")) { [weak self] _ in
                     
                     alertController.close { [weak self] in
                         
@@ -419,9 +459,18 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
         
         let quitButton = alert.addButton(title: String(key: "game.plusMinus.quit.confirm")) { [weak self] _ in
             
-            alert.close {
+            alert.close { [weak self] in
                 
-                self?.dismiss()
+                self?.dismiss {
+                    
+                    MB_Alert_ViewController.presentLoading { controller in
+                        
+                        MB_Ads.shared.presentInterstitial(Ads.FullScreen.GameEnd, dismissCompletion: {
+                            
+                            controller?.close()
+                        })
+                    }
+                }
             }
         }
         quitButton.type = .delete

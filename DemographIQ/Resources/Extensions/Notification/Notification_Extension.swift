@@ -10,4 +10,5 @@ import Foundation
 extension Notification.Name {
 	
     static let updateUserScore = Notification.Name("updateUserScore")
+    static let updateAds = Notification.Name("updateAds")
 }

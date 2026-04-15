@@ -19,6 +19,8 @@ extension UserDefaults {
         case countriesLastFecthData = "countriesLastFecthData"
         
         case currentUser = "currentUser"
+        
+        case shouldDisplayAds = "shouldDisplayAds"
     }
     
     public static func set(_ value:Any?, _ key:UserDefaults.Keys) {

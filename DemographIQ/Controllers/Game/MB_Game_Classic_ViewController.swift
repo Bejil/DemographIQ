@@ -102,6 +102,17 @@ public class MB_Game_Classic_ViewController : MB_ViewController {
         }
         
         country = countries.getNew()
+        
+        MB_Alert_ViewController.presentLoading { [weak self] controller in
+            
+            MB_Ads.shared.presentInterstitial(Ads.FullScreen.GameStart, dismissCompletion: { [weak self] in
+                
+                controller?.close { [weak self] in
+                    
+                    self?.guessCountryStackView.populationTextField.becomeFirstResponder()
+                }
+            })
+        }
     }
     
     public override func close() {
@@ -122,9 +133,18 @@ public class MB_Game_Classic_ViewController : MB_ViewController {
         
         let quitButton = alert.addButton(title: String(key: "game.classic.quit.confirm")) { [weak self] _ in
             
-            alert.close {
+            alert.close { [weak self] in
                 
-                self?.dismiss()
+                self?.dismiss {
+                    
+                    MB_Alert_ViewController.presentLoading { controller in
+                        
+                        MB_Ads.shared.presentInterstitial(Ads.FullScreen.GameEnd, dismissCompletion: {
+                            
+                            controller?.close()
+                        })
+                    }
+                }
             }
         }
         quitButton.type = .delete
@@ -239,7 +259,6 @@ public class MB_Game_Classic_ViewController : MB_ViewController {
     private func presentLoseAndReturnToMenu(country: MB_Country) {
         
         MB_Feedback.shared.make(.Error)
-        MB_Confetti.stop()
         
         let alertController = MB_Alert_ViewController()
         alertController.backgroundView.isUserInteractionEnabled = false
@@ -250,7 +269,23 @@ public class MB_Game_Classic_ViewController : MB_ViewController {
         loseLabel.set(font: Fonts.Content.Text.Bold, string: country.localizedName)
         loseLabel.set(font: Fonts.Content.Text.Bold, string: country.formattedPopulation)
         
-        alertController.addButton(title: String(key: "game.classic.back_menu.button")) { [weak self] _ in
+        let button = alertController.addButton(title: String(key: "game.classic.lose.retry.button.title")) { _ in
+            
+            alertController.close {
+                
+                MB_Alert_ViewController.presentLoading { controller in
+                    
+                    MB_Ads.shared.presentInterstitial(Ads.FullScreen.GameLose, dismissCompletion: {
+                        
+                        controller?.close()
+                    })
+                }
+            }
+        }
+        button.type = .tertiary
+        button.subtitle = String(key: "game.classic.lose.retry.button.subtitle")
+        
+        alertController.addButton(title: String(key: "game.classic.lose.menu.button")) { [weak self] _ in
             
             alertController.close()
             self?.dismiss()

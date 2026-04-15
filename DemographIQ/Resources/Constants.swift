@@ -250,3 +250,14 @@ public struct Fonts {
 		}
 	}
 }
+
+public struct Ads {
+    
+    public struct FullScreen {
+        
+        static let AppOpening:String = "ca-app-pub-9540216894729209/5755164832"
+        static let GameStart:String = "ca-app-pub-9540216894729209/5940986761"
+        static let GameEnd:String = "ca-app-pub-9540216894729209/8273516960"
+        static let GameLose:String = "ca-app-pub-9540216894729209/2933335038"
+    }
+}

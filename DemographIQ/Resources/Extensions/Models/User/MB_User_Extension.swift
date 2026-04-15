@@ -40,4 +40,12 @@ extension MB_User {
             completion?(error)
         }
     }
+    
+    public static func getLeaderboard(_ completion: ((Error?, [MB_User]?) -> Void)?) {
+        
+        Firestore.firestore().collection("leaderboard").getDocuments { snapshot, error in
+            
+            completion?(error, snapshot?.documents.compactMap({ try? $0.data(as: MB_User.self) }))
+        }
+    }
 }
