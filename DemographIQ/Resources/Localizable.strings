@@ -67,7 +67,9 @@
 "game.classic.retry.button" = "Réessayer";
 "game.classic.lose.title" = "Partie terminée";
 "game.classic.lose.body" = "Tu as épuisé tes deux tentatives pour %@. La population était de %@ habitants.";
-"game.classic.back_menu.button" = "Retour au menu";
+"game.classic.lose.menu.button" = "Retour au menu";
+"game.classic.lose.retry.button.title" = "Réessayer";
+"game.classic.lose.retry.button.subtitle" = "Regarder une publicité";
 "game.classic.next_country" = "Pays suivant";
 "game.classic.quit.title" = "Quitter la partie ?";
 "game.classic.quit.message.empty" = "Ta partie en cours sera interrompue. Tu pourras en relancer une depuis le menu.";
@@ -90,6 +92,9 @@
 "game.plusMinus.failure.alert.title" = "Partie terminée";
 "game.plusMinus.failure.alert.score" = "Score total : %d point(s)";
 "game.plusMinus.failure.alert.no_round_points" = "Tu n'as pas gagné de point sur cette manche.";
+"game.plusMinus.failure.retry.button.title" = "Réessayer";
+"game.plusMinus.failure.retry.button.subtitle" = "Regarder une publicité";
+"game.plusMinus.failure.menu.button" = "Retour au menu";
 
 //MARK: - User name
 "settings.userName.alert.title" = "Votre nom";

@@ -1,9 +1,4 @@
 # DemographIQ
-
-<p align="center">
-  <img src="DemographIQ/Resources/UI/Assets.xcassets/AppIcon.appiconset/ico_1024.png" alt="DemographIQ Logo" width="150">
-</p>
-
 **DemographIQ** est un jeu de culture générale orienté populations mondiales. Estimez, comparez et apprenez en jouant sur les ordres de grandeur des pays du monde, tout en améliorant votre score partie après partie.
 
 ---
