@@ -461,16 +461,7 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
             
             alert.close { [weak self] in
                 
-                self?.dismiss {
-                    
-                    MB_Alert_ViewController.presentLoading { controller in
-                        
-                        MB_Ads.shared.presentInterstitial(Ads.FullScreen.GameEnd, dismissCompletion: {
-                            
-                            controller?.close()
-                        })
-                    }
-                }
+                self?.dismiss()
             }
         }
         quitButton.type = .delete
@@ -478,6 +469,19 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
         alert.addCancelButton()
         
         alert.present()
+    }
+    
+    public override func dismiss(_ completion: (() -> Void)? = nil) {
+        
+        super.dismiss(completion)
+        
+        MB_Alert_ViewController.presentLoading { controller in
+            
+            MB_Ads.shared.presentInterstitial(Ads.FullScreen.GameEnd, dismissCompletion: {
+                
+                controller?.close()
+            })
+        }
     }
     
     private func dismissResult() {
