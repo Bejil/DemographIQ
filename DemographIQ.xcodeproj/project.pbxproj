@@ -14,6 +14,7 @@
 		7AA15F9F2F901C3E009A5B86 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 7AA15F9E2F901C3E009A5B86 /* Alamofire */; };
 		7AA1609D2F901C6A009A5B86 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 7AA1609C2F901C6A009A5B86 /* GoogleMobileAds */; };
 		7AA160A02F901C71009A5B86 /* GoogleUserMessagingPlatform in Frameworks */ = {isa = PBXBuildFile; productRef = 7AA1609F2F901C71009A5B86 /* GoogleUserMessagingPlatform */; };
+		7AA162822F911D36009A5B86 /* SVGKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7AA162812F911D36009A5B86 /* SVGKit */; };
 		7B8E9F102F85000100ABCDEF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8E9F112F85000100ABCDEF /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +55,7 @@
 				7A6F8CDD2F73E9A200BF45A0 /* SPConfetti in Frameworks */,
 				7AA15F9F2F901C3E009A5B86 /* Alamofire in Frameworks */,
 				7B8E9F102F85000100ABCDEF /* MapKit.framework in Frameworks */,
+				7AA162822F911D36009A5B86 /* SVGKit in Frameworks */,
 				7A52AE902F8F74650046CFCD /* FirebaseFirestore in Frameworks */,
 				7AA1609D2F901C6A009A5B86 /* GoogleMobileAds in Frameworks */,
 			);
@@ -114,6 +116,7 @@
 				7AA15F9E2F901C3E009A5B86 /* Alamofire */,
 				7AA1609C2F901C6A009A5B86 /* GoogleMobileAds */,
 				7AA1609F2F901C71009A5B86 /* GoogleUserMessagingPlatform */,
+				7AA162812F911D36009A5B86 /* SVGKit */,
 			);
 			productName = DemographIQ;
 			productReference = 7A73C2C92F73DD8D00267C16 /* DemographIQ.app */;
@@ -127,7 +130,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2620;
-				LastUpgradeCheck = 2620;
+				LastUpgradeCheck = 2640;
 				TargetAttributes = {
 					7A73C2C82F73DD8D00267C16 = {
 						CreatedOnToolsVersion = 26.2;
@@ -152,6 +155,7 @@
 				7AA15F9D2F901C3E009A5B86 /* XCRemoteSwiftPackageReference "alamofire" */,
 				7AA1609B2F901C6A009A5B86 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 				7AA1609E2F901C71009A5B86 /* XCRemoteSwiftPackageReference "swift-package-manager-google-user-messaging-platform" */,
+				7AA162802F911D36009A5B86 /* XCRemoteSwiftPackageReference "SVGKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7A73C2CA2F73DD8D00267C16 /* Products */;
@@ -251,6 +255,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -305,6 +310,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -315,6 +321,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -362,6 +369,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -447,6 +455,14 @@
 				minimumVersion = 3.1.0;
 			};
 		};
+		7AA162802F911D36009A5B86 /* XCRemoteSwiftPackageReference "SVGKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SVGKit/SVGKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -484,6 +500,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7AA1609E2F901C71009A5B86 /* XCRemoteSwiftPackageReference "swift-package-manager-google-user-messaging-platform" */;
 			productName = GoogleUserMessagingPlatform;
+		};
+		7AA162812F911D36009A5B86 /* SVGKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7AA162802F911D36009A5B86 /* XCRemoteSwiftPackageReference "SVGKit" */;
+			productName = SVGKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

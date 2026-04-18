@@ -17,15 +17,22 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
             
             let bestScore = MB_User.current.scores.plusMinus
             
+            let user = MB_User.current
+            
+            if oldValue < totalScore {
+                
+                user.points += 1
+            }
+            
             if totalScore > bestScore {
                 
-                let user = MB_User.current
                 user.scores.plusMinus = totalScore
-                user.save()
-                user.saveLeaderboard()
-                
-                NotificationCenter.post(.updateUserScore)
             }
+            
+            user.save()
+            user.saveLeaderboard()
+            
+            NotificationCenter.post(.updateUserScore)
             
             refreshScore()
         }
@@ -371,6 +378,31 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
                 alertController.title = String(key: "game.plusMinus.failure.alert.title")
                 alertController.add(self?.totalScore ?? 0 > 0 ? String(format: String(key: "game.plusMinus.failure.alert.score"), self?.totalScore ?? 0) : String(key: "game.plusMinus.failure.alert.no_round_points"))
                 
+                if MB_User.current.bonus > 0 {
+                    
+                    let button = alertController.addButton(title: String(key: "game.plusMinus.failure.bonus.button.title")) { [weak self] button in
+                        
+                        button?.isLoading = true
+                        
+                        let user = MB_User.current
+                        user.bonus -= 1
+                        user.save()
+                        user.saveLeaderboard { [weak self] error in
+                            
+                            NotificationCenter.post(.updateUserBonus)
+                            
+                            button?.isLoading = false
+                            
+                            alertController.close { [weak self] in
+                                
+                                self?.topCountry = self?.countries.getNew()
+                            }
+                        }
+                    }
+                    button.type = .secondary
+                    button.subtitle = String(key: "game.plusMinus.failure.bonus.button.subtitle")
+                }
+                
                 let button = alertController.addButton(title: String(key: "game.plusMinus.failure.retry.button.title")) { [weak self] _ in
                     
                     alertController.close { [weak self] in
@@ -461,16 +493,7 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
             
             alert.close { [weak self] in
                 
-                self?.dismiss {
-                    
-                    MB_Alert_ViewController.presentLoading { controller in
-                        
-                        MB_Ads.shared.presentInterstitial(Ads.FullScreen.GameEnd, dismissCompletion: {
-                            
-                            controller?.close()
-                        })
-                    }
-                }
+                self?.dismiss()
             }
         }
         quitButton.type = .delete
@@ -478,6 +501,19 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
         alert.addCancelButton()
         
         alert.present()
+    }
+    
+    public override func dismiss(_ completion: (() -> Void)? = nil) {
+        
+        super.dismiss(completion)
+        
+        MB_Alert_ViewController.presentLoading { controller in
+            
+            MB_Ads.shared.presentInterstitial(Ads.FullScreen.GameEnd, dismissCompletion: {
+                
+                controller?.close()
+            })
+        }
     }
     
     private func dismissResult() {

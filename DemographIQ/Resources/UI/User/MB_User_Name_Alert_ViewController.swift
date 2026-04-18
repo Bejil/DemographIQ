@@ -29,17 +29,32 @@ public class MB_User_Name_Alert_ViewController : MB_Alert_ViewController {
 		textField.text = currentPlayer.name
 		add(textField)
 		
-		let confirmButton = addButton(title: String(key: "settings.userName.alert.button")) { [weak self] _ in
+		let confirmButton = addButton(title: String(key: "settings.userName.alert.button")) { [weak self] button in
 			
             let name = self?.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
 			
 			if let name = name, !name.isEmpty {
 				
+                button?.isLoading = true
+                
 				currentPlayer.name = name
                 currentPlayer.save()
-                currentPlayer.saveLeaderboard()
-                
-                self?.close()
+                currentPlayer.saveLeaderboard { [weak self] error in
+                    
+                    button?.isLoading = false
+                    
+                    self?.close {
+                        
+                        if let error {
+                            
+                            MB_Alert_ViewController.present(error)
+                        }
+                        else {
+                            
+                            NotificationCenter.post(.updateUserName)
+                        }
+                    }
+                }
 			}
 		}
 		confirmButton.isEnabled = !(textField.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true)

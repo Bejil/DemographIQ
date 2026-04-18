@@ -15,13 +15,7 @@ public class MB_Home_ViewController : MB_ViewController {
         super.loadView()
         
         contentScrollView.isCentered = true
-        
-        let imageView:MB_ImageView = .init(image: UIImage(systemName: "globe.europe.africa"))
-        imageView.tintColor = Colors.Secondary
-        imageView.snp.makeConstraints { make in
-            make.size.equalTo(12*UI.Margins)
-        }
-        contentStackView.addArrangedSubview(imageView)
+        contentScrollView.clipsToBounds = false
         
         let titleLabel:MB_Label = .init(String(key: "home.title.welcome"))
         titleLabel.font = Fonts.Content.Title.H1.withSize(Fonts.Size+50)
@@ -90,6 +84,17 @@ public class MB_Home_ViewController : MB_ViewController {
         contentStackView.setCustomSpacing(2*UI.Margins, after: leaderboardButton)
         
         contentStackView.addArrangedSubview(MB_Settings_Button())
+        
+        let stackView:UIStackView = .init(arrangedSubviews: [contentScrollView,MB_User_StackView()])
+        stackView.spacing = 2*UI.Margins
+        stackView.axis = .vertical
+        
+        view.addSubview(stackView)
+        stackView.snp.makeConstraints { make in
+            make.left.right.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(UI.Margins)
+            make.bottom.equalToSuperview()
+        }
         
         NotificationCenter.add(.updateUserScore) { _ in
             

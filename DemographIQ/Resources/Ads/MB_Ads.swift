@@ -24,7 +24,7 @@ public class MB_Ads : NSObject {
 	
 	public var shouldDisplayAd:Bool {
 		
-        return (UserDefaults.get(.shouldDisplayAds) as? Bool ?? true) && ConsentInformation.shared.consentStatus == .obtained// && !UIApplication.isDebug
+        return (UserDefaults.get(.shouldDisplayAds) as? Bool ?? true) && ConsentInformation.shared.consentStatus == .obtained && !UIApplication.isDebug
 	}
 	
 	public func start() {
@@ -40,9 +40,12 @@ public class MB_Ads : NSObject {
 			
 			AppOpenAd.load(with: Ads.FullScreen.AppOpening, request: Request()) { [weak self] ad, error in
 				
-				self?.appOpening = ad
-				self?.appOpening?.fullScreenContentDelegate = self
-				self?.appOpening?.present(from: UI.MainController)
+				Task { @MainActor [weak self] in
+					
+					self?.appOpening = ad
+					self?.appOpening?.fullScreenContentDelegate = self
+					self?.appOpening?.present(from: UI.MainController)
+				}
 			}
 		}
 		else {
@@ -60,14 +63,17 @@ public class MB_Ads : NSObject {
 			
 			InterstitialAd.load(with:identifier, request: Request(), completionHandler: { [weak self] ad, _ in
 				
-				if let ad {
+				Task { @MainActor [weak self] in
 					
-					ad.fullScreenContentDelegate = self
-					ad.present(from: UI.MainController)
-				}
-				else {
-					
-					dismissCompletion?()
+					if let ad {
+						
+						ad.fullScreenContentDelegate = self
+						ad.present(from: UI.MainController)
+					}
+					else {
+						
+						dismissCompletion?()
+					}
 				}
 			})
 		}
@@ -84,11 +90,14 @@ public class MB_Ads : NSObject {
 		do {
 			
 			rewardedAd = try await RewardedAd.load(with: identifier, request: Request())
-			rewardedAd?.fullScreenContentDelegate = self
+			await MainActor.run {
+				
+				rewardedAd?.fullScreenContentDelegate = self
+			}
 			
 			if let ad = rewardedAd {
 				
-				await ad.present(from: nil) { [weak self] in
+				ad.present(from: nil) { [weak self] in
 					
 					self?.rewardedAdReward = self?.rewardedAd?.adReward
 				}

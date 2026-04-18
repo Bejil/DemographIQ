@@ -20,15 +20,22 @@ public class MB_Game_Classic_ViewController : MB_ViewController {
             
             let bestScore = MB_User.current.scores.classic
             
+            let user = MB_User.current
+            
+            if oldValue < totalScore {
+                
+                user.points += 1
+            }
+            
             if totalScore > bestScore {
                 
-                let user = MB_User.current
                 user.scores.classic = totalScore
-                user.save()
-                user.saveLeaderboard()
-                
-                NotificationCenter.post(.updateUserScore)
             }
+            
+            user.save()
+            user.saveLeaderboard()
+            
+            NotificationCenter.post(.updateUserScore)
             
             refreshScore()
         }
@@ -135,16 +142,7 @@ public class MB_Game_Classic_ViewController : MB_ViewController {
             
             alert.close { [weak self] in
                 
-                self?.dismiss {
-                    
-                    MB_Alert_ViewController.presentLoading { controller in
-                        
-                        MB_Ads.shared.presentInterstitial(Ads.FullScreen.GameEnd, dismissCompletion: {
-                            
-                            controller?.close()
-                        })
-                    }
-                }
+                self?.dismiss()
             }
         }
         quitButton.type = .delete
@@ -152,6 +150,19 @@ public class MB_Game_Classic_ViewController : MB_ViewController {
         alert.addCancelButton()
         
         alert.present()
+    }
+    
+    public override func dismiss(_ completion: (() -> Void)? = nil) {
+        
+        super.dismiss(completion)
+        
+        MB_Alert_ViewController.presentLoading { controller in
+            
+            MB_Ads.shared.presentInterstitial(Ads.FullScreen.GameEnd, dismissCompletion: {
+                
+                controller?.close()
+            })
+        }
     }
     
     private func checkResult() {
@@ -269,16 +280,50 @@ public class MB_Game_Classic_ViewController : MB_ViewController {
         loseLabel.set(font: Fonts.Content.Text.Bold, string: country.localizedName)
         loseLabel.set(font: Fonts.Content.Text.Bold, string: country.formattedPopulation)
         
+        if MB_User.current.bonus > 0 {
+            
+            let button = alertController.addButton(title: String(key: "game.classic.lose.bonus.button.title")) { [weak self] button in
+                
+                button?.isLoading = true
+                
+                let user = MB_User.current
+                user.bonus -= 1
+                user.save()
+                user.saveLeaderboard { [weak self] error in
+                    
+                    NotificationCenter.post(.updateUserBonus)
+                    
+                    button?.isLoading = false
+                    
+                    alertController.close { [weak self] in
+                        
+                        self?.advanceToNextCountry()
+                    }
+                }
+            }
+            button.type = .secondary
+            button.subtitle = String(key: "game.classic.lose.bonus.button.subtitle")
+        }
+        
         let button = alertController.addButton(title: String(key: "game.classic.lose.retry.button.title")) { _ in
             
-            alertController.close {
+            alertController.close { [weak self] in
                 
-                MB_Alert_ViewController.presentLoading { controller in
+                MB_Alert_ViewController.presentLoading { [weak self] controller in
                     
-                    MB_Ads.shared.presentInterstitial(Ads.FullScreen.GameLose, dismissCompletion: {
+                    Task { [weak self] in
                         
-                        controller?.close()
-                    })
+                        await MB_Ads.shared.presentRewardedAd(Ads.FullScreen.GameLose, { [weak self] state, exception in
+                            
+                            controller?.close { [weak self] in
+                                
+                                if state || exception ?? true {
+                                    
+                                    self?.advanceToNextCountry()
+                                }
+                            }
+                        })
+                    }
                 }
             }
         }

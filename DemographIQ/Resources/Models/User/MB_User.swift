@@ -17,6 +17,8 @@ public class MB_User : Codable, Equatable {
 	public var id:UUID = UUID()
 	public var name:String?
     public var scores:Scores = .init()
+    public var bonus:Int = 5
+    public var points:Int = 0
 	
 	public static func == (lhs: MB_User, rhs: MB_User) -> Bool {
 		

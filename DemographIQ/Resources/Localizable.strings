@@ -26,7 +26,6 @@
 
 //MARK: - Settings
 "settings.button" = "Réglages";
-"settings.button.name" = "Votre nom";
 "settings.button.music" = "Musique";
 "settings.button.music.on" = "Activée";
 "settings.button.music.off" = "Désactivée";
@@ -68,6 +67,8 @@
 "game.classic.lose.title" = "Partie terminée";
 "game.classic.lose.body" = "Tu as épuisé tes deux tentatives pour %@. La population était de %@ habitants.";
 "game.classic.lose.menu.button" = "Retour au menu";
+"game.classic.lose.bonus.button.title" = "Utiliser un bonus";
+"game.classic.lose.bonus.button.subtitle" = "Continuer sans publicité";
 "game.classic.lose.retry.button.title" = "Réessayer";
 "game.classic.lose.retry.button.subtitle" = "Regarder une publicité";
 "game.classic.next_country" = "Pays suivant";
@@ -92,6 +93,8 @@
 "game.plusMinus.failure.alert.title" = "Partie terminée";
 "game.plusMinus.failure.alert.score" = "Score total : %d point(s)";
 "game.plusMinus.failure.alert.no_round_points" = "Tu n'as pas gagné de point sur cette manche.";
+"game.plusMinus.failure.bonus.button.title" = "Utiliser un bonus";
+"game.plusMinus.failure.bonus.button.subtitle" = "Continuer sans publicité";
 "game.plusMinus.failure.retry.button.title" = "Réessayer";
 "game.plusMinus.failure.retry.button.subtitle" = "Regarder une publicité";
 "game.plusMinus.failure.menu.button" = "Retour au menu";
@@ -105,7 +108,15 @@
 "textfield.done.button" = "Ok";
 
 //MARK: - Leaderboard
-"leaderboard.title" = "Classement";
+"leaderboard.title" = "Classement"; 
 "leaderboard.segment.classic" = "Classique";
 "leaderboard.segment.plusMinus" = "Plus ou moins";
 "leaderboard.points" = "points";
+
+//MARK: - User
+"user.bonus" = "Bonus %i";
+"user.level" = "Niveau %i";
+"user.levelUp.title" = "Niveau supérieur";
+"user.levelUp.body" = "Bravo, vous passez au niveau %d !";
+"user.levelUp.bonus" = "+1 bonus";
+"user.levelUp.bonus.content" = "Recompense debloquee : %@.\nTotal de bonus : %d";

@@ -13,18 +13,6 @@ public class MB_Settings_Button : MB_Button {
 		
 		return .init(children: [
 			UIMenu(options: .displayInline, children: [
-				UIAction(title: String(key: "settings.button.name"), subtitle: MB_User.current.name, image: UIImage(systemName: "person.fill"), handler: { [weak self] _ in
-					
-					let alertController:MB_User_Name_Alert_ViewController = .init()
-					alertController.addCancelButton()
-					alertController.present()
-					alertController.dismissHandler = { [weak self] in
-						
-						self?.menu = self?.settingsMenu
-					}
-				})
-			]),
-			UIMenu(options: .displayInline, children: [
                 
                 UIAction(title: String(key: "settings.button.sounds"), subtitle: String(key: "settings.button.sounds." + (MB_Audio.shared.isSoundsEnabled ? "on" : "off")), image: UIImage(systemName: MB_Audio.shared.isSoundsEnabled ? "speaker.wave.2.fill" : "speaker.slash.fill"), handler: { [weak self] _ in
                     
@@ -67,7 +55,7 @@ public class MB_Settings_Button : MB_Button {
 		image = UIImage(systemName: "slider.vertical.3")?.applyingSymbolConfiguration(.init(scale: .medium))
 		menu = settingsMenu
 		showsMenuAsPrimaryAction = true
-		type = .navigation
+        type = .navigation
 	}
 	
 	required init?(coder: NSCoder) {
