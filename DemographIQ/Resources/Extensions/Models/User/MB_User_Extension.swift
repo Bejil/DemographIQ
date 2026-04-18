@@ -8,6 +8,39 @@ import Foundation
 import FirebaseFirestore
 
 extension MB_User {
+    
+    /// Niveau dérivé des points d’expérience (`points`) : chaque manche réussie (classic ou plus/moins) ajoute 1 point.
+    public var level:Int {
+        
+        var level = 1
+        var remaining = max(0, points)
+        var requiredForNextLevel = 5
+        
+        while remaining >= requiredForNextLevel {
+            
+            remaining -= requiredForNextLevel
+            level += 1
+            requiredForNextLevel = Int(Double(requiredForNextLevel) * 1.5)
+        }
+        
+        return level
+    }
+
+    /// Progression vers le niveau suivant (0.0 … 1.0), basée sur les mêmes paliers que `level`.
+    public var levelProgress:Float {
+        
+        var remaining = max(0, points)
+        var requiredForNextLevel = 5
+        
+        while remaining >= requiredForNextLevel {
+            remaining -= requiredForNextLevel
+            requiredForNextLevel = Int(Double(requiredForNextLevel) * 1.5)
+        }
+        
+        guard requiredForNextLevel > 0 else { return 0 }
+        let progress = Float(remaining) / Float(requiredForNextLevel)
+        return min(1.0, max(0.0, progress))
+    }
 	
 	public static var current:MB_User {
 		
