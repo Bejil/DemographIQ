@@ -102,19 +102,6 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
             
             bottomCountryStackView.nameLabel.textColor = Colors.Content.Text
             bottomDimVisualEffectView.alpha = 0.0
-            
-            #warning("Need to delete after testing")
-            if UIApplication.isDebug {
-                
-                if let topCountry, let bottomCountry, let topPopulation = topCountry.population, let bottomPopulation = bottomCountry.population {
-                    
-                    questionLabel.text = topPopulation >= bottomPopulation ? topCountry.localizedName : bottomCountry.localizedName
-                }
-                else {
-                    
-                    questionLabel.text = String(key: "game.plusMinus.label")
-                }
-            }
         }
     }
     private lazy var bottomMaskLayer = CAShapeLayer()
