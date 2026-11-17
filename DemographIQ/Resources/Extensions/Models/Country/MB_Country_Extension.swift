@@ -40,7 +40,7 @@ extension MB_Country {
         }
         else {
             
-            let url = "https://restcountries.com/v3.1/all?fields=name,flags,population,translations,latlng,capital,cca3,area"
+            let url = "https://raw.githubusercontent.com/restcountries/restcountries/master/src/main/resources/countriesV3.1.json"
             
             AF.request(url, method: .get).validate().responseDecodable(of: [MB_Country].self) { response in
                 

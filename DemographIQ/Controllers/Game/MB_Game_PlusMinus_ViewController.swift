@@ -38,6 +38,7 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
         }
     }
     private var countries:[MB_Country] = .init()
+    private var comparisonCount: Int = 0
     private let angleDelta = 1.5*UI.Margins
     private lazy var topMaskLayer = CAShapeLayer()
     private lazy var topView:UIView = {
@@ -181,8 +182,7 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
             MB_Feedback.shared.make(.On)
             MB_Audio.shared.playSound(.Button)
             
-            self?.topCountry = self?.countries.getNew()
-            self?.dismissResult()
+            self?.continueToNextComparison()
         }))
         $0.snp.makeConstraints { make in
             make.size.equalTo(10*UI.Margins)
@@ -334,6 +334,13 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
     
     private func showResult(_ isSuccess:Bool) {
         
+        comparisonCount += 1
+        topView.isUserInteractionEnabled = false
+        bottomView.isUserInteractionEnabled = false
+        nextStackView.isUserInteractionEnabled = true
+        nextSubtitleLabel.isHidden = false
+        nextSubtitleLabel.text = String(key: "game.plusMinus.next.subtitle.success")
+        
         UIView.animation {
             
             if self.topCountry?.population ?? 0 > self.bottomCountry?.population ?? 0 {
@@ -363,80 +370,10 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
         }
         else {
             
+            totalScore = 0
+            
             MB_Audio.shared.playSound(.Error)
             MB_Feedback.shared.make(.Error)
-            
-            topView.isUserInteractionEnabled = false
-            bottomView.isUserInteractionEnabled = false
-            nextStackView.isUserInteractionEnabled = false
-            nextSubtitleLabel.isHidden = true
-            
-            UIApplication.wait(2.5) { [weak self] in
-                
-                let alertController = MB_Alert_ViewController()
-                alertController.backgroundView.isUserInteractionEnabled = false
-                alertController.title = String(key: "game.plusMinus.failure.alert.title")
-                alertController.add(self?.totalScore ?? 0 > 0 ? String(format: String(key: "game.plusMinus.failure.alert.score"), self?.totalScore ?? 0) : String(key: "game.plusMinus.failure.alert.no_round_points"))
-                
-                if MB_User.current.bonus > 0 {
-                    
-                    let button = alertController.addButton(title: String(key: "game.plusMinus.failure.bonus.button.title")) { [weak self] button in
-                        
-                        button?.isLoading = true
-                        
-                        let user = MB_User.current
-                        user.bonus -= 1
-                        user.save()
-                        user.saveLeaderboard { [weak self] error in
-                            
-                            NotificationCenter.post(.updateUserBonus)
-                            
-                            button?.isLoading = false
-                            
-                            alertController.close { [weak self] in
-                                
-                                self?.topCountry = self?.countries.getNew()
-                            }
-                        }
-                    }
-                    button.type = .secondary
-                    button.subtitle = String(key: "game.plusMinus.failure.bonus.button.subtitle")
-                }
-                
-                let button = alertController.addButton(title: String(key: "game.plusMinus.failure.retry.button.title")) { [weak self] _ in
-                    
-                    alertController.close { [weak self] in
-                        
-                        MB_Alert_ViewController.presentLoading { [weak self] controller in
-                            
-                            Task { [weak self] in
-                                
-                                await MB_Ads.shared.presentRewardedAd(Ads.FullScreen.GameLose, { [weak self] state, exception in
-                                    
-                                    controller?.close { [weak self] in
-                                        
-                                        if state || exception ?? true {
-                                            
-                                            self?.topCountry = self?.countries.getNew()
-                                        }
-                                    }
-                                })
-                            }
-                        }
-                    }
-                }
-                button.type = .tertiary
-                button.subtitle = String(key: "game.plusMinus.failure.retry.button.subtitle")
-                
-                alertController.addButton(title: String(key: "game.plusMinus.failure.menu.button")) { [weak self] _ in
-                    
-                    alertController.close { [weak self] in
-                        
-                        self?.dismiss()
-                    }
-                }
-                alertController.present()
-            }
         }
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.68, initialSpringVelocity: 0.35, options: [.allowUserInteraction], animations: {
@@ -473,6 +410,33 @@ public class MB_Game_PlusMinus_ViewController : MB_ViewController {
         
         bottomCountryStackView.layoutMargins.bottom = 0
         bottomCountryStackView.showPopulation()
+    }
+    
+    private func continueToNextComparison() {
+        
+        let shouldPresentAd = comparisonCount > 0 && comparisonCount % 5 == 0
+        
+        guard shouldPresentAd else {
+            
+            topCountry = countries.getNew()
+            return
+        }
+        
+        nextStackView.isUserInteractionEnabled = false
+        
+        MB_Alert_ViewController.presentLoading { [weak self] controller in
+            
+            Task { [weak self] in
+                
+                await MB_Ads.shared.presentRewardedAd(Ads.FullScreen.GameLose, { [weak self] _, _ in
+                    
+                    controller?.close { [weak self] in
+                        
+                        self?.topCountry = self?.countries.getNew()
+                    }
+                })
+            }
+        }
     }
     
     public override func close() {
