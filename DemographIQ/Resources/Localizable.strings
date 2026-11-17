@@ -84,8 +84,8 @@
 "game.plusMinus.next.title.success" = "BRAVO";
 "game.plusMinus.next.title.failure" = "RATÉ";
 "game.plusMinus.next.subtitle.success" = "Pays suivant";
-"game.plusMinus.next.subtitle.failure" = "Plus d'infos";
-"game.plusMinus.score" = "Score · %d pts";
+"game.plusMinus.next.subtitle.failure" = "Pays suivant";
+"game.plusMinus.score" = "Série · %d";
 "game.plusMinus.quit.title" = "Quitter la partie ?";
 "game.plusMinus.quit.message.empty" = "Ta partie en cours sera interrompue. Tu pourras en relancer une depuis le menu.";
 "game.plusMinus.quit.message.scored" = "Tu as %d points pour l’instant. Si tu quittes, cette session s’arrête et ce score ne sera plus affiché dans cette partie.";

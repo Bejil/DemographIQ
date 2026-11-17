@@ -1,0 +1,47 @@
+---
+description: Après chaque modification, build et lance DemographIQ sur simulateur iPhone
+alwaysApply: true
+---
+
+# Build & run simulateur après chaque modification
+
+Après **toute modification de code** (Swift, resources, project settings) qui impacte l’app, **toujours** build et lancer DemographIQ sur un simulateur **iPhone** avant de considérer la tâche terminée.
+
+## Procédure obligatoire
+
+1. Build + install via `xcodebuild` (scheme `DemographIQ`, destination iPhone Simulator).
+2. Boot le simulateur si besoin.
+3. Lance l’app (`com.michaelblin.DemographIQ`).
+4. Si le build échoue : corrige, puis rebuild/relance.
+5. Résume brièvement le résultat (succès ou erreur de build).
+
+## Commandes de référence
+
+```bash
+# Choisir un iPhone dispo (ex. iPhone 16)
+DEVICE_ID=$(xcrun simctl list devices available | awk -F '[()]' '/iPhone/ && /Booted/ {print $2; exit}')
+if [ -z "$DEVICE_ID" ]; then
+  DEVICE_ID=$(xcrun simctl list devices available | awk -F '[()]' '/iPhone/ && /Shutdown/ {print $2; exit}')
+  xcrun simctl boot "$DEVICE_ID" || true
+  open -a Simulator
+fi
+
+xcodebuild \
+  -project DemographIQ.xcodeproj \
+  -scheme DemographIQ \
+  -configuration Debug \
+  -destination "id=$DEVICE_ID" \
+  -derivedDataPath /tmp/DemographIQDerivedData \
+  build
+
+APP="/tmp/DemographIQDerivedData/Build/Products/Debug-iphonesimulator/DemographIQ.app"
+xcrun simctl install "$DEVICE_ID" "$APP"
+xcrun simctl terminate "$DEVICE_ID" com.michaelblin.DemographIQ 2>/dev/null || true
+xcrun simctl launch "$DEVICE_ID" com.michaelblin.DemographIQ
+```
+
+## Exceptions
+
+- Ne pas build pour une question purement informative sans changement de fichiers.
+- Ne pas build pour un commit/PR/docs-only si aucun fichier app n’a changé.
+- Utiliser `required_permissions: ["all"]` pour `xcodebuild` / `simctl` (accès simulateur).
