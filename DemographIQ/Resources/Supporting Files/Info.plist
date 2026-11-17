@@ -13,6 +13,8 @@
 	<false/>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-9540216894729209~7254068430</string>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
